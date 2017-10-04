@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Elit Menu Item Custom Fields
+ * Elit 
  *
- * @package Menu_Item_Custom_Fields
+ * @package Elit_Homepage_Intro_Menu_Item_Custom_Fields
  * @version 1.0.0
  * @author  Dzikri Aziz <kvcrvt@gmail.com>
  * @author  Patrick Sinco
  *
- * Plugin name: Elit Menu Item Custom Fields
+ * Plugin name: Elit Homepage Intro Menu Item Custom Fields
  * Plugin URI: https://github.com/kucrut/wp-menu-item-custom-fields
  * Description: Add a custom field for tags to menu items
  * Version: 1.0.0
@@ -27,7 +27,7 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 		* @wp_hook action wp_loaded
 		*/
 		public static function load() {
-			add_filter( 'wp_edit_nav_menu_walker', array( __CLASS__, '_filter_walker' ), 99 );
+			add_filter( 'wp_edit_nav_menu_walker', array( __CLASS__, '_filter_walker' ), 99, 2 );
 		}
 
 
@@ -43,7 +43,11 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 		* @param   string $walker Walker class name
 		* @return  string Walker class name
 		*/
-		public static function _filter_walker( $walker ) {
+		public static function _filter_walker( $walker, $id ) {
+
+      // Only add the custom walker if we're on the 'homepage-intro' menu
+      if ( $id !== 9 ) return $walker;
+
 			$walker = 'Menu_Item_Custom_Fields_Walker';
 			if ( ! class_exists( $walker ) ) {
 				require_once dirname( __FILE__ ) . '/walker-nav-menu-edit.php';
