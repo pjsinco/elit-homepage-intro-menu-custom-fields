@@ -22,11 +22,6 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 	*/
 	class Menu_Item_Custom_Fields {
 
-    /**
-     * ID of nav menu on which the custom field should appear
-     */
-    const MENU_ID = 10; 
-
 		/**
 		* Add filter
 		*
@@ -51,8 +46,14 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 		*/
 		public static function _filter_walker( $walker, $id ) {
 
-      // Only add the custom walker if we're on the 'homepage-intro' menu
-      if ( $id !== self::MENU_ID ) return $walker;
+      $target_menu = get_option( 'elit_settings' );
+
+      // Only show the custom field on the menu identifed
+      // on the settings page
+      if ( $target_menu ) {
+        $target_menu_id = $target_menu['elit_menu_id_for_custom_field'];
+        if ( $id !== ( int ) $target_menu_id ) return $walker;
+      }
 
 			$walker = 'Menu_Item_Custom_Fields_Walker';
 			if ( ! class_exists( $walker ) ) {
@@ -67,3 +68,4 @@ endif; // class_exists( 'Menu_Item_Custom_Fields' )
 
 // Uncomment the following line to test this plugin
 require_once dirname( __FILE__ ) . '/doc/elit-tag-menu-item.php';
+require_once dirname( __FILE__ ) . '/elit-homepage-intro-menu-custom-fields-options.php';
