@@ -15,11 +15,17 @@
  * Authors: Dzikri Aziz and Patrick Sinco
  */
 
+
 if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 	/**
 	* Menu Item Custom Fields Loader
 	*/
 	class Menu_Item_Custom_Fields {
+
+    /**
+     * ID of nav menu on which the custom field should appear
+     */
+    const MENU_ID = 10; 
 
 		/**
 		* Add filter
@@ -46,7 +52,7 @@ if ( ! class_exists( 'Menu_Item_Custom_Fields' ) ) :
 		public static function _filter_walker( $walker, $id ) {
 
       // Only add the custom walker if we're on the 'homepage-intro' menu
-      if ( $id !== 9 ) return $walker;
+      if ( $id !== self::MENU_ID ) return $walker;
 
 			$walker = 'Menu_Item_Custom_Fields_Walker';
 			if ( ! class_exists( $walker ) ) {
